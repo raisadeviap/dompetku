@@ -21,13 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set listener ke BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
         bottomNavigationView.setSelectedItemId(R.id.nav_beranda);
 
-        // Sembunyikan tombol back di ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
