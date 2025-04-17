@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -52,7 +53,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mentari"
+                        android:text="Dompeters"
                         android:textAppearance="@style/Nama"
                         android:textColor="#000000"/>
                 </LinearLayout>
@@ -206,9 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Catatan"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
+                android:textAppearance="@style/Heading3"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"/>
 
@@ -393,9 +392,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
-        app:menu="@menu/bottom_menu"
-        android:layout_alignParentBottom="true"
-        app:layout_insetEdge="bottom"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
+        android:background="@color/birucard"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="803dp"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+        app:itemRippleColor="@color/birumuda"
+        app:menu="@menu/bottom_menu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".TambahActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="50dp"
+            android:text="Tambahkan Catatan"
+            android:textAppearance="@style/Heading2" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="148dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            app:cardBackgroundColor="#F1F4F9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="148dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/textSaldoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Masukkan Saldo Anda"
+                    android:textAppearance="@style/CardText"
+                    android:textColor="@color/biru" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textSaldo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/CardSaldo"
+                    android:textColor="@color/biru"
+                    android:inputType="number"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Kategori -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:gravity="center">
+
+            <!-- Barang/Pengeluaran/Pemasukan -->
+            <androidx.cardview.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="20dp"
+                card_view:cardElevation="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
+                app:cardBackgroundColor="#fff">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="Kategori Barang"
+                        android:textAppearance="@style/CardText"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerBarang"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:backgroundTint="#1E1E6C"/>
+                </LinearLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Jenis Transaksi -->
+            <androidx.cardview.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="20dp"
+                card_view:cardElevation="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
+                app:cardBackgroundColor="#fff">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="Kategori Transaksi"
+                        android:textAppearance="@style/CardText"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerJenis"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#1E1E6C"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCatatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Catatan (max 3 kata)"
+                android:padding="16dp"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:inputType="textCapWords"
+                android:textAppearance="@style/Normal"
+                android:textColor="#1E1E6C"
+                android:background="@android:color/transparent" />
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnTambah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Tambahkan Catatan"/>
+
+
+    </LinearLayout>
+
+
+
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/birucard"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+        app:itemRippleColor="@color/birumuda"
+        app:menu="@menu/bottom_menu"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="803dp" />
+
+</FrameLayout>
