@@ -22,28 +22,32 @@ public class TambahActivity extends AppCompatActivity {
     private Button btnTambah;
     private BottomNavigationView bottomNavigationView;
 
+    private AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah);
 
-        // Inisialisasi BottomNavigationView
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        bottomNavigationView.setSelectedItemId(R.id.nav_tambah); // Set item aktif
+        // Inisialisasi database
+        db = AppDatabase.getInstance(this);
 
-        // Inisialisasi view lainnya
+        // Inisialisasi view
         spinnerBarang = findViewById(R.id.spinnerBarang);
         spinnerJenis = findViewById(R.id.spinnerJenis);
         textSaldo = findViewById(R.id.textSaldo);
         etCatatan = findViewById(R.id.etCatatan);
         btnTambah = findViewById(R.id.btnTambah);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // Data Spinner
+        // Set Bottom Navigation
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView.setSelectedItemId(R.id.nav_tambah);
+
+        // Spinner data
         String[] barangKategori = {"Makanan", "Pakaian", "Uang Jajan", "Gaji Freelance", "Lainnya"};
         String[] jenisKategori = {"Pemasukan", "Pengeluaran"};
 
-        // Adapter Spinner
         ArrayAdapter<String> barangAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, barangKategori);
         barangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBarang.setAdapter(barangAdapter);
@@ -52,24 +56,46 @@ public class TambahActivity extends AppCompatActivity {
         jenisAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerJenis.setAdapter(jenisAdapter);
 
-        // Event Tombol Tambah
+        // Tombol tambah
         btnTambah.setOnClickListener(v -> {
-            String saldo = textSaldo.getText().toString();
+            String saldoStr = textSaldo.getText().toString();
             String barang = spinnerBarang.getSelectedItem().toString();
             String jenis = spinnerJenis.getSelectedItem().toString();
             String catatan = etCatatan.getText().toString();
 
-            if (saldo.isEmpty() || catatan.isEmpty()) {
+            if (saldoStr.isEmpty() || catatan.isEmpty()) {
                 Toast.makeText(this, "Isi semua data!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(this,
-                    "Saldo: " + saldo +
-                            "\nKategori: " + barang +
-                            "\nJenis: " + jenis +
-                            "\nCatatan: " + catatan,
-                    Toast.LENGTH_LONG).show();
+            int saldo;
+            try {
+                saldo = Integer.parseInt(saldoStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Nominal tidak valid!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String tanggal = String.valueOf(System.currentTimeMillis());
+
+            // Sesuai urutan konstruktor Transaksi: kategori, nominal, deskripsi, tanggal
+            Transaksi transaksi = new Transaksi(jenis, saldo, catatan + " - " + barang, tanggal);
+
+            // Simpan ke database secara async
+            new Thread(() -> {
+                try {
+                    db.transaksiDao().insert(transaksi);
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Transaksi berhasil ditambahkan!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace(); // log ke Logcat
+                    runOnUiThread(() ->
+                            Toast.makeText(this, "Gagal menambahkan transaksi", Toast.LENGTH_SHORT).show()
+                    );
+                }
+            }).start();
         });
     }
 
@@ -85,7 +111,6 @@ public class TambahActivity extends AppCompatActivity {
                         finish();
                         return true;
                     } else if (id == R.id.nav_tambah) {
-                        // Sudah di TambahActivity, tidak perlu melakukan apa-apa
                         return true;
                     } else if (id == R.id.nav_statistik) {
                         startActivity(new Intent(TambahActivity.this, StatistikActivity.class));
