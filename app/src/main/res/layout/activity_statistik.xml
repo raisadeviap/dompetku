@@ -11,10 +11,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="70dp"> <!-- untuk beri ruang bawah navigation -->
 
-        <!-- Menu Toggle Button -->
+        <!-- Radio Group untuk filter -->
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="300dp"
@@ -66,6 +67,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="32dp" />
 
+        <!-- Bagian Catatan Transaksi -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,184 +82,15 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Transaction List -->
-            <LinearLayout
+            <!-- RecyclerView menggantikan daftar transaksi statis -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewStatistik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Transaction 1 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/pengeluaran"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Makanan"
-                            android:textAppearance="@style/CardText" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ramen"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="end">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-Rp. 100.000"
-                            android:textAppearance="@style/CardSaldoSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 April 2025"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE"/>
-
-                <!-- Transaction 2 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/pengeluaran" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pakaian"
-                            android:textAppearance="@style/CardText"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Seragam"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="end">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-Rp. 400.000"
-                            android:textAppearance="@style/CardSaldoSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 April 2025"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#EEEEEE"/>
-
-                <!-- Transaction 3 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="12dp">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/pemasukan" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Uang Jajan"
-                            android:textAppearance="@style/CardText"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bulanan"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="end">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="+Rp. 2.500.000"
-                            android:textAppearance="@style/CardSaldoSmall"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 April 2025"
-                            android:textAppearance="@style/Normal"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"/>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -268,8 +101,5 @@
         android:background="@color/birucard"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:itemRippleColor="@color/birumuda"
-        app:menu="@menu/bottom_menu"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="803" />
-
+        app:menu="@menu/bottom_menu" />
 </FrameLayout>

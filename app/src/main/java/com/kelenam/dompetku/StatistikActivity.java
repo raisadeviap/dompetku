@@ -20,22 +20,26 @@ import java.util.ArrayList;
 
 public class StatistikActivity extends AppCompatActivity {
 
-    PieChart pieChart;
-    RadioGroup radioGroup;
+    private PieChart pieChart;
+    private RadioGroup radioGroup;
+    private AppDatabase db; // Tambahkan referensi database Room
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistik);
 
+        // Inisialisasi Room Database
+        db = AppDatabase.getInstance(this);
+
         // Inisialisasi view
         pieChart = findViewById(R.id.pieChart);
         radioGroup = findViewById(R.id.radioGroup);
 
-        // Default chart
+        // Tampilkan data default
         showAllData();
 
-        // Listener untuk toggle menu
+        // Toggle pilihan radio
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbSemua) {
                 showAllData();
@@ -52,27 +56,46 @@ public class StatistikActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.nav_statistik);
     }
 
-    // Fungsi untuk masing-masing jenis grafik
+    // Menampilkan grafik semua kategori
     private void showAllData() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(1000, "Pemasukan"));
-        entries.add(new PieEntry(200, "Pengeluaran"));
-        setupPieChart(entries);
+        new Thread(() -> {
+            int totalPemasukan = db.transaksiDao().getTotalByKategori("Pemasukan");
+            int totalPengeluaran = db.transaksiDao().getTotalByKategori("Pengeluaran");
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            if (totalPemasukan > 0) entries.add(new PieEntry(totalPemasukan, "Pemasukan"));
+            if (totalPengeluaran > 0) entries.add(new PieEntry(totalPengeluaran, "Pengeluaran"));
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
     }
 
-    private void showPengeluaran() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(100, "Makanan"));
-        entries.add(new PieEntry(400, "Pakaian"));
-        setupPieChart(entries);
-    }
 
+    // Menampilkan hanya pemasukan
     private void showPemasukan() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(1000, "Pemasukan"));
-        setupPieChart(entries);
+        new Thread(() -> {
+            int totalPemasukan = db.transaksiDao().getTotalByKategori("Pemasukan");
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            if (totalPemasukan > 0) entries.add(new PieEntry(totalPemasukan, "Pemasukan"));
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
     }
 
+    // Menampilkan hanya pengeluaran
+    private void showPengeluaran() {
+        new Thread(() -> {
+            int totalPengeluaran = db.transaksiDao().getTotalByKategori("Pengeluaran");
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            if (totalPengeluaran > 0) entries.add(new PieEntry(totalPengeluaran, "Pengeluaran"));
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
+    }
+
+    // Setup PieChart
     private void setupPieChart(ArrayList<PieEntry> entries) {
         PieDataSet dataSet = new PieDataSet(entries, "");
         ArrayList<Integer> colors = new ArrayList<>();
@@ -81,14 +104,16 @@ public class StatistikActivity extends AppCompatActivity {
         for (PieEntry e : entries) {
             switch (e.getLabel()) {
                 case "Pemasukan":
-                case "Pakaian":
                     colors.add(Color.parseColor("#1E1E6C"));
                     valueTextColors.add(Color.WHITE);
                     break;
-                case "Makanan":
-                default:
+                case "Pengeluaran":
                     colors.add(Color.parseColor("#D4EAF9"));
                     valueTextColors.add(Color.parseColor("#1E1E6C"));
+                    break;
+                default:
+                    colors.add(Color.GRAY);
+                    valueTextColors.add(Color.BLACK);
                     break;
             }
         }
@@ -109,8 +134,7 @@ public class StatistikActivity extends AppCompatActivity {
         pieChart.invalidate();
     }
 
-
-    // Navigasi Bottom Nav
+    // Navigasi Bottom Navigation
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
