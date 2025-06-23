@@ -11,36 +11,61 @@ public class Transaksi {
     private int id;
 
     private String tanggal;
-    private String kategori; // "Pemasukan" atau "Pengeluaran"
-    private String deskripsi;
+    private String jenisBarang; // sebelumnya kategori
+    private String catatan;     // sebelumnya deskripsi
     private int nominal;
 
     // Default constructor dibutuhkan Room
     public Transaksi() {
     }
 
-    // Constructor manual kamu, ditandai @Ignore agar Room tidak bingung
+    // Constructor manual
     @Ignore
-    public Transaksi(String kategori, int nominal, String deskripsi, String tanggal) {
-        this.kategori = kategori;
+    public Transaksi(String jenisBarang, int nominal, String catatan, String tanggal) {
+        this.jenisBarang = jenisBarang;
         this.nominal = nominal;
-        this.deskripsi = deskripsi;
+        this.catatan = catatan;
         this.tanggal = tanggal;
     }
 
     // Getters dan Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getTanggal() { return tanggal; }
-    public void setTanggal(String tanggal) { this.tanggal = tanggal; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getKategori() { return kategori; }
-    public void setKategori(String kategori) { this.kategori = kategori; }
+    public String getTanggal() {
+        return tanggal;
+    }
 
-    public String getDeskripsi() { return deskripsi; }
-    public void setDeskripsi(String deskripsi) { this.deskripsi = deskripsi; }
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
+    }
 
-    public int getNominal() { return nominal; }
-    public void setNominal(int nominal) { this.nominal = nominal; }
+    public String getJenisBarang() {
+        return jenisBarang;
+    }
+
+    public void setJenisBarang(String jenisBarang) {
+        this.jenisBarang = jenisBarang;
+    }
+
+    public String getCatatan() {
+        return catatan;
+    }
+
+    public void setCatatan(String catatan) {
+        this.catatan = catatan;
+    }
+
+    public int getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(int nominal) {
+        this.nominal = nominal;
+    }
 }

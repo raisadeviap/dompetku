@@ -17,25 +17,27 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StatistikActivity extends AppCompatActivity {
 
     PieChart pieChart;
     RadioGroup radioGroup;
+    AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistik);
 
-        // Inisialisasi view
         pieChart = findViewById(R.id.pieChart);
         radioGroup = findViewById(R.id.radioGroup);
+        db = AppDatabase.getInstance(this);
 
-        // Default chart
         showAllData();
 
-        // Listener untuk toggle menu
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbSemua) {
                 showAllData();
@@ -46,56 +48,91 @@ public class StatistikActivity extends AppCompatActivity {
             }
         });
 
-        // Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         bottomNavigationView.setSelectedItemId(R.id.nav_statistik);
     }
 
-    // Fungsi untuk masing-masing jenis grafik
     private void showAllData() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(1000, "Pemasukan"));
-        entries.add(new PieEntry(200, "Pengeluaran"));
-        setupPieChart(entries);
+        new Thread(() -> {
+            List<Transaksi> list = db.transaksiDao().getAllTransaksi();
+
+            int pemasukan = 0;
+            int pengeluaran = 0;
+
+            for (Transaksi t : list) {
+                if (t.getJenisBarang().equalsIgnoreCase("Pemasukan")) {
+                    pemasukan += t.getNominal();
+                } else if (t.getJenisBarang().equalsIgnoreCase("Pengeluaran")) {
+                    pengeluaran += t.getNominal();
+                }
+            }
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            if (pemasukan > 0) entries.add(new PieEntry(pemasukan, "Pemasukan"));
+            if (pengeluaran > 0) entries.add(new PieEntry(pengeluaran, "Pengeluaran"));
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
     }
 
     private void showPengeluaran() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(100, "Makanan"));
-        entries.add(new PieEntry(400, "Pakaian"));
-        setupPieChart(entries);
+        new Thread(() -> {
+            List<Transaksi> list = db.transaksiDao().getAllTransaksi();
+            Map<String, Integer> jenisMap = new HashMap<>();
+
+            for (Transaksi t : list) {
+                if (t.getJenisBarang().equalsIgnoreCase("Pengeluaran")) {
+                    String jenis = t.getJenisBarang(); // Gunakan jenisBarang sebagai label
+                    int value = jenisMap.getOrDefault(jenis, 0);
+                    jenisMap.put(jenis, value + t.getNominal());
+                }
+            }
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : jenisMap.entrySet()) {
+                entries.add(new PieEntry(entry.getValue(), entry.getKey()));
+            }
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
     }
 
     private void showPemasukan() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(1000, "Pemasukan"));
-        setupPieChart(entries);
+        new Thread(() -> {
+            List<Transaksi> list = db.transaksiDao().getAllTransaksi();
+            Map<String, Integer> jenisMap = new HashMap<>();
+
+            for (Transaksi t : list) {
+                if (t.getJenisBarang().equalsIgnoreCase("Pemasukan")) {
+                    String jenis = t.getJenisBarang(); // Gunakan jenisBarang sebagai label
+                    int value = jenisMap.getOrDefault(jenis, 0);
+                    jenisMap.put(jenis, value + t.getNominal());
+                }
+            }
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : jenisMap.entrySet()) {
+                entries.add(new PieEntry(entry.getValue(), entry.getKey()));
+            }
+
+            runOnUiThread(() -> setupPieChart(entries));
+        }).start();
     }
 
     private void setupPieChart(ArrayList<PieEntry> entries) {
         PieDataSet dataSet = new PieDataSet(entries, "");
-        ArrayList<Integer> colors = new ArrayList<>();
-        ArrayList<Integer> valueTextColors = new ArrayList<>();
 
-        for (PieEntry e : entries) {
-            switch (e.getLabel()) {
-                case "Pemasukan":
-                case "Pakaian":
-                    colors.add(Color.parseColor("#1E1E6C"));
-                    valueTextColors.add(Color.WHITE);
-                    break;
-                case "Makanan":
-                default:
-                    colors.add(Color.parseColor("#D4EAF9"));
-                    valueTextColors.add(Color.parseColor("#1E1E6C"));
-                    break;
-            }
+        ArrayList<Integer> colors = new ArrayList<>();
+        for (int i = 0; i < entries.size(); i++) {
+            colors.add(Color.parseColor(i % 2 == 0 ? "#1E1E6C" : "#D4EAF9"));
         }
 
         dataSet.setColors(colors);
-        dataSet.setValueTextColors(valueTextColors);
         dataSet.setValueTextSize(14f);
+        dataSet.setValueTextColors(new ArrayList<Integer>() {{
+            for (int i = 0; i < entries.size(); i++) add(Color.WHITE);
+        }});
 
         PieData pieData = new PieData(dataSet);
         pieData.setValueFormatter(new PercentFormatter(pieChart));
@@ -109,8 +146,6 @@ public class StatistikActivity extends AppCompatActivity {
         pieChart.invalidate();
     }
 
-
-    // Navigasi Bottom Nav
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override

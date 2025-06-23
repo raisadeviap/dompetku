@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
             final int[] totalPengeluaran = {0};
 
             for (Transaksi t : transaksiList) {
-                if (t.getKategori().equalsIgnoreCase("Pemasukan")) {
+                if (t.getJenisBarang().equalsIgnoreCase("Pemasukan")) {
                     totalPemasukan[0] += t.getNominal();
-                } else if (t.getKategori().equalsIgnoreCase("Pengeluaran")) {
+                } else if (t.getJenisBarang().equalsIgnoreCase("Pengeluaran")) {
                     totalPengeluaran[0] += t.getNominal();
                 }
             }
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }).start();
     }
+
 
 
     private String formatRupiah(int amount) {

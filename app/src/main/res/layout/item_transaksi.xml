@@ -25,18 +25,18 @@
             android:layout_marginStart="12dp">
 
             <TextView
-                android:id="@+id/tvKategori"
+                android:id="@+id/tvJenisBarang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kategori"
+                android:text="Jenis Barang"
                 android:textAppearance="@style/CardText" />
 
             <TextView
-                android:id="@+id/tvDeskripsi"
+                android:id="@+id/tvCatatan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Deskripsi"
-                android:textAppearance="@style/Normal" />
+                android:text="Catatan"
+                android:textAppearance="@style/Normal"/>
         </LinearLayout>
 
         <LinearLayout

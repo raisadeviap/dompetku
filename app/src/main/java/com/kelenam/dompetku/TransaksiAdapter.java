@@ -37,29 +37,28 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         Transaksi transaksi = transaksiList.get(position);
         Context context = holder.itemView.getContext();
 
-        // Set kategori dan deskripsi
-        holder.tvKategori.setText(transaksi.getKategori());
-        holder.tvDeskripsi.setText(transaksi.getDeskripsi());
+        // Set jenis barang dan catatan
+        holder.tvJenisBarang.setText(transaksi.getJenisBarang());
+        holder.tvCatatan.setText(transaksi.getCatatan());
 
         // Format tanggal
         try {
             long timestamp = Long.parseLong(transaksi.getTanggal());
-            String formattedDate = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                    .format(new Date(timestamp));
-            holder.tvTanggal.setText(formattedDate);
+            Date date = new Date(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMMM yyyy", new Locale("id", "ID"));
+            holder.tvTanggal.setText(sdf.format(date));
         } catch (Exception e) {
-            holder.tvTanggal.setText(transaksi.getTanggal()); // fallback
+            holder.tvTanggal.setText(transaksi.getTanggal());
         }
 
-        // Format nominal & tampilkan ikon sesuai kategori
-        if (transaksi.getKategori().equalsIgnoreCase("Pengeluaran")) {
-            holder.imgIcon.setImageResource(R.drawable.pengeluaran);
-            holder.tvNominal.setText("-Rp" + transaksi.getNominal());
-            holder.tvNominal.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark));
-        } else {
+        // Format nominal dan ikon
+        int nominal = transaksi.getNominal();
+        if (nominal >= 0) {
+            holder.tvNominal.setText("+Rp. " + nominal);
             holder.imgIcon.setImageResource(R.drawable.pemasukan);
-            holder.tvNominal.setText("+Rp" + transaksi.getNominal());
-            holder.tvNominal.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark));
+        } else {
+            holder.tvNominal.setText("-Rp. " + Math.abs(nominal));
+            holder.imgIcon.setImageResource(R.drawable.pengeluaran);
         }
     }
 
@@ -69,16 +68,17 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvJenisBarang, tvCatatan, tvNominal, tvTanggal;
         ImageView imgIcon;
-        TextView tvKategori, tvDeskripsi, tvNominal, tvTanggal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgIcon = itemView.findViewById(R.id.imgIcon);
-            tvKategori = itemView.findViewById(R.id.tvKategori);
-            tvDeskripsi = itemView.findViewById(R.id.tvDeskripsi);
+            tvJenisBarang = itemView.findViewById(R.id.tvJenisBarang);
+            tvCatatan = itemView.findViewById(R.id.tvCatatan);
             tvNominal = itemView.findViewById(R.id.tvNominal);
             tvTanggal = itemView.findViewById(R.id.tvTanggal);
+            imgIcon = itemView.findViewById(R.id.imgIcon);
         }
     }
 }

@@ -19,6 +19,6 @@ public interface TransaksiDao {
     @Query("SELECT * FROM transaksi ORDER BY id DESC")
     List<Transaksi> getAllTransaksi();
 
-    @Query("SELECT SUM(nominal) FROM transaksi WHERE kategori = :kategori")
-    int getTotalByKategori(String kategori);
+    @Query("SELECT SUM(nominal) FROM transaksi WHERE jenisBarang = :jenisBarang")
+    int getTotalByJenisBarang(String jenisBarang);
 }
