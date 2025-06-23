@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTransaksi(); // Refresh data setiap kembali ke MainActivity
+        loadTransaksi();
     }
 
     private void loadTransaksi() {
