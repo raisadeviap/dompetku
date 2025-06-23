@@ -1,11 +1,9 @@
 package com.kelenam.dompetku;
 
 import android.content.Context;
-
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
 import com.kelenam.dompetku.Transaksi;
 
 @Database(entities = {Transaksi.class}, version = 1, exportSchema = false)
