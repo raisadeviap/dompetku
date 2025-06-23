@@ -11,7 +11,7 @@ public class Transaksi {
     private int id;
 
     private String tanggal;
-    private String kategori; // "Pemasukan" atau "Pengeluaran"
+    private String kategori;
     private String deskripsi;
     private int nominal;
 

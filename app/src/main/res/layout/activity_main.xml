@@ -191,7 +191,6 @@
             android:textAppearance="@style/Heading3"
             android:layout_marginBottom="8dp" />
 
-        <!-- ✅ RECYCLERVIEW (ID SUDAH SESUAI DENGAN MainActivity.java) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTransaksi"
             android:layout_width="match_parent"

@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kelenam.dompetku.AppDatabase;
+import com.kelenam.dompetku.Transaksi;
+
 
 import java.util.List;
 
@@ -32,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Inisialisasi view
         recyclerView = findViewById(R.id.recyclerViewTransaksi);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         textSaldo = findViewById(R.id.textSaldo);
         saldoPemasukan = findViewById(R.id.saldoPemasukan);
         saldoPengeluaran = findViewById(R.id.saldoPengeluaran);
 
-        db = AppDatabase.getInstance(this);
+        db = AppDatabase.getInstance(getApplicationContext());
         loadTransaksi();
 
         // Bottom Navigation
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTransaksi(); // Refresh data setiap kembali ke MainActivity
+        loadTransaksi();
     }
 
     private void loadTransaksi() {
@@ -80,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }).start();
     }
-
 
     private String formatRupiah(int amount) {
         return String.format("%,d", amount).replace(',', '.'); // Contoh: 1.000.000
