@@ -87,7 +87,6 @@ public class TambahActivity extends AppCompatActivity {
                     db.transaksiDao().insert(transaksi);
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Transaksi berhasil ditambahkan!", Toast.LENGTH_SHORT).show();
-                        finish();
                     });
                 } catch (Exception e) {
                     e.printStackTrace(); // log ke Logcat
